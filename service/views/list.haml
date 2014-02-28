@@ -1,0 +1,5 @@
+%ul
+  - @employees.each do |h|
+    %li
+      %b= h[:name]
+      .position= h[:position]
