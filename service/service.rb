@@ -1,7 +1,6 @@
 # require 'rubygems'
 # require 'bundler/setup'
 
-require 'awesome_print'
 require 'sinatra/base'
 require 'haml'
 
@@ -29,7 +28,7 @@ class HtmlService < Sinatra::Base
       {name: 'Doyle Cox', position: 'Marketing Manager' },
       {name: 'Alexandra Boyd', position: 'Developer' },
       {name: 'Pedro Todd', position: 'Developer' },
-      {name: 'Tommy Holt', position: 'Dara Analyst' },
+      {name: 'Tommy Holt', position: 'Data Analyst' },
       {name: 'Judith  Norris', position: 'Brand Manager' },
       {name: 'Rufus Strickland', position: 'Developer' },
       {name: 'Madeline  Butler', position: 'Support Agent' },
