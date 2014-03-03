@@ -42,6 +42,12 @@ class HtmlService < Sinatra::Base
     haml :list
   end
 
+  get '/employees.json' do
+    employees = get_employees(params[:position])
+    employees.to_json
+  end
+
+
   private
     def get_employees(position = nil)
       if !position.nil?
