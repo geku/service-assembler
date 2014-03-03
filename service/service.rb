@@ -2,16 +2,12 @@
 # require 'bundler/setup'
 
 require 'sinatra/base'
+require 'json'
 require 'haml'
 
 class HtmlService < Sinatra::Base
-  
-  set :server, :thin
-  
-  get '/employees' do
-    position = params[:position]
 
-    employees = [
+  EMPLOYEES = [
       {name: 'Blake Gray', position: 'CEO' },
       {name: 'Marc Hamilton', position: 'CTO' },
       {name: 'Elias Hammond', position: 'Developer' },
@@ -39,14 +35,20 @@ class HtmlService < Sinatra::Base
       {name: 'Phillip Cummings', position: 'Support Agent' }
     ]
 
+  set :server, :thin
 
-    @employees = if !position.nil?
-      employees.select {|e| e[:position] == position }
-    else
-      employees
-    end
-
+  get '/employees' do
+    @employees = get_employees(params[:position])
     haml :list
   end
+
+  private
+    def get_employees(position = nil)
+      if !position.nil?
+        EMPLOYEES.select {|e| e[:position] == position }
+      else
+        EMPLOYEES
+      end
+    end
   
 end
