@@ -50,10 +50,10 @@ class HtmlService < Sinatra::Base
 
   private
     def get_employees(position = nil)
-      if !position.nil?
-        EMPLOYEES.select {|e| e[:position] == position }
-      else
+      if position.nil? || position == ''
         EMPLOYEES
+      else
+        EMPLOYEES.select {|e| e[:position] == position }
       end
     end
   
