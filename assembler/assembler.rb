@@ -2,21 +2,29 @@ require 'rubygems'
 require 'bundler/setup'
 
 require 'sinatra/base'
-require 'haml'
-require 'open-uri'
-require 'uri'
 require 'awesome_print'
+
+require './renderer'
 
 
 # TODO implement real proxy with passing through all headers etc.
-
+# TODO ensure multiple services are fetched in parallel. 
+# => We need to provide one command to request multiple backend results.
 
 BACKEND_HOST = 'http://localhost:5000'
 SERVICE_MAPPINGS = {
-  'employee-list' => 'http://localhost:5100/employees'
+  'employees' => 'http://localhost:5100/employees.json'
 }
 
 class HtmlAssembler < Sinatra::Base
+
+  @@renderer = Renderer.new(SERVICE_MAPPINGS)
+
+  helpers do
+    def render_template(tpl)
+      @@renderer.render(tpl, params)
+    end
+  end
   
   set :server, :thin
   
@@ -27,21 +35,11 @@ class HtmlAssembler < Sinatra::Base
     rescue OpenURI::HTTPError
       return [404, {}, "Not Found"]
     end
+
+    # TODO only render responses of type HTML through our render engine (don't for images, JS, etc.)
+
     tpl = source.read
-
-    # {{[^{}]+}}
-    tags = tpl.scan(/{{[^{}]+}}/)
-    tags.each do |tag|
-      tag = tag.gsub('{{', '').gsub('}}', '')
-      service, query = tag.split('?')
-
-      next unless SERVICE_MAPPINGS.has_key?(service)
-      service_html = open("#{SERVICE_MAPPINGS[service]}?#{query}").read
-
-      tpl.gsub!(/{{#{Regexp.escape(tag)}}}/, service_html)
-    end
-
-    tpl
+    render_template(tpl)
   end
   
 end

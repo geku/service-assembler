@@ -29,7 +29,15 @@
       <div class="row">
         <div class="col-md-8">
           <h2>Our Developers</h2>
-          {{employee-list?position=Developer}}
+          <% load('employees', position: params[:pos]) %>
+          <ul>
+          <% @employees.each do |emp| %>
+            <li>
+              <b><%= emp.name %></b>
+              <div id="position"><%= emp.position %></div>
+            </li>
+          <% end%>
+          </ul>
         </div>
         <div class="col-md-4">
           <h2>ToDo</h2>
