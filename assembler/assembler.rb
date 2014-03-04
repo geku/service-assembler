@@ -10,10 +10,12 @@ require './renderer'
 # TODO implement real proxy with passing through all headers etc.
 # TODO ensure multiple services are fetched in parallel. 
 # => We need to provide one command to request multiple backend results.
+# TODO allow requesting same service multiple times without adding it multiple times to mapping
 
 BACKEND_HOST = 'http://localhost:5000'
 SERVICE_MAPPINGS = {
-  'employees' => 'http://localhost:5100/employees.json'
+  'employees' => 'http://localhost:5100/employees.json',
+  'agents' => 'http://localhost:5100/employees.json',
 }
 
 class HtmlAssembler < Sinatra::Base

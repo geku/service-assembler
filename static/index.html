@@ -29,7 +29,11 @@
       <div class="row">
         <div class="col-md-8">
           <h2>Our Developers</h2>
-          <% load('employees', position: params[:pos]) %>
+          <% 
+            # Use query params on assembler
+            # load('employees', position: params[:pos]) 
+          %>
+          <% load('employees', position: 'Developer') %>
           <ul>
           <% @employees.each do |emp| %>
             <li>
@@ -40,12 +44,16 @@
           </ul>
         </div>
         <div class="col-md-4">
-          <h2>ToDo</h2>
-          <p>More examples to implement:</p>
+          <h2>Our Support Agents</h2>
+          <p>Multiple service backends can be added:</p>
+          <% load('agents', position: 'Support Agent') %>
           <ul>
-            <li>JSON Service Assembler: Example with JSON assembling and something like handlebars. Check if we can use Liquid for the momten</li>
-            <li>Describe architecture</li>
-            <li></li>
+            <% @agents.each do |emp| %>
+              <li>
+                <b><%= emp.name %></b>
+                <div id="position"><%= emp.position %></div>
+              </li>
+            <% end%>
           </ul>
           <p><a class="btn btn-default" href="#" role="button">View details &raquo;</a></p>
         </div>
